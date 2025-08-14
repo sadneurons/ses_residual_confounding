@@ -24,9 +24,7 @@ preferred-citation:
   type: software
   title: "Simulation of Residual Confounding by SES"
   authors:
-    - given-names: "Your"
-      family-names: "Name"
-    - given-names: "A. N."
-      family-names: "Collaborator"
+    - given-names: "Ross"
+      family-names: "Dunne"
   year: 2025
   doi: "10.5281/zenodo.TBD"

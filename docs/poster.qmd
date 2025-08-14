@@ -8,7 +8,7 @@ format:
     self-contained: true
     theme: cosmo
     grid:
-      margin-width: 0
+      margin-width: 1in
       body-width: 1200px
 execute:
   echo: false
