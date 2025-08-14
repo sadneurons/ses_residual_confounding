@@ -9,7 +9,7 @@ If you use this repository, please cite the archived release (Zenodo DOI above).
 **BibTeX**
 ```bibtex
 @software{yourname_ses_residual_confounding_2025,
-  author  = {Dunne, R.A},
+  author  = {Your Name and Collaborator, A. N.},
   title   = {Simulation of Residual Confounding by SES},
   year    = {2025},
   publisher = {Zenodo},

@@ -1,0 +1,85 @@
+---
+title: "Simulation of Residual Confounding by SES"
+subtitle: "DAG‑informed simulation + NHANES scaffold"
+author: "Your Name · A. N. Collaborator"
+date: today
+format:
+  html:
+    self-contained: true
+    theme: cosmo
+    grid:
+      margin-width: 0
+      body-width: 1200px
+execute:
+  echo: false
+  warning: false
+  message: false
+page-layout: full
+jupyter: python3
+---
+
+::: {.columns}
+::: {.column width="32%"}
+
+## Background
+- SES is often modeled **linearly** or as **quintiles**.  
+- True relationships may be **non-linear** (saturation, thresholds, U‑shapes).  
+- **Selection** (healthy-volunteer bias) further **attenuates** SES.
+
+## Methods (Simulation)
+- Latent SES* → mediators (BMI, SBP, smoking) → outcome (binary).  
+- Non-linear SES*→mediator functions + direct SES*→Y.  
+- Biobank-like selection; noisy/coarsened SES proxies.  
+- Compare **typical models** vs **splines + g-computation**.  
+- SES attribution via **causal R^2** and Shapley shares.
+
+## Key Numbers
+
+```{python}
+import pandas as pd
+m = pd.read_csv("../artifacts/simulation_metrics.csv").iloc[0].to_dict()
+print(f"- Population N: **{int(m.get('n_population',0)):,}**")
+print(f"- Selected N: **{int(m.get('n_biobank',0)):,}**")
+print(f"- Prevalence (pop → sel): **{m.get('mean_y_population', float('nan')):.2%} → {m.get('mean_y_biobank', float('nan')):.2%}**")
+print(f"- McFadden R^2 (linear vs over-adj): **{m.get('mcFadden_R2_linear_quintile', float('nan')):.3f} → {m.get('mcFadden_R2_overadjusted', float('nan')):.3f}**")
+print(f"- Causal R^2 (pop → sel, oracle/proxy): **{m.get('causal_R2_true', float('nan')):.4f} → {m.get('causal_R2_oracle_SESstar', float('nan')):.4f}/{m.get('causal_R2_proxy_SESobs', float('nan')):.4f}**")
+```
+:::
+
+::: {.column width="36%"}
+
+## Dose–Response
+![](../artifacts/simulation_dose_response.png){fig-align="center" width="100%"}
+
+**Interpretation.** Linear/quintile SES flattens the curve; splines + standardization recover the gradient. Selection compresses the amplitude further.
+
+## Takeaways
+- **Non-linearity matters**: misspecification under-attributes SES.  
+- **Selection matters**: “healthier volunteers” shrink SES effects.  
+- **Correct practice**: flexible SES modeling + causal standardization.
+
+:::
+
+::: {.column width="32%"}
+
+## NHANES Scaffold (Real Data)
+- Harmonizes PIR/education, BMI, SBP, smoking, CVD.  
+- Survey-weighted fits vs. biobank-like selection.  
+- Dose–response via spline + g-computation.
+
+> Not distributed here; runs if you provide local XPTs.
+
+## Reproducibility
+- Parameterized notebook + **Makefile**.  
+- **Inline tests** and session info with code hashes.  
+- Artifacts saved under `artifacts/`.  
+- **Quarto** builds abstract (PDF) and poster (HTML).
+
+## Contact & Citation
+- Repo: _add your URL_  
+- DOI: _add Zenodo DOI_  
+- License: **MIT**
+
+:::
+
+:::
