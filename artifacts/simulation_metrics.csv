@@ -1,0 +1,2 @@
+n_population,n_biobank,mean_y_population,mean_y_biobank,mcFadden_R2_linear_quintile,Tjur_R2_linear_quintile,mcFadden_R2_overadjusted,causal_R2_true,causal_R2_oracle_SESstar,causal_R2_proxy_SESobs,Shapley_SESstar_share,Shapley_C_share,Shapley_R2_total
+200000,9851,0.059935,0.0357324129529997,0.010830436723050174,0.00333335393891504,0.05487941510732319,0.005182722890989547,0.01589311103386556,0.001487137114223293,0.005789561910925833,0.010856568942971379,0.016646130853897212

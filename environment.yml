@@ -1,0 +1,20 @@
+name: ses-confounding
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - statsmodels
+  - patsy
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - nbconvert
+  - papermill
+  - pytest
+  - pip
+  - pip:
+      - black
+      - isort

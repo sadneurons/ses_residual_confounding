@@ -1,0 +1,32 @@
+{
+  "title": "Simulation of Residual Confounding by SES",
+  "upload_type": "software",
+  "description": "A DAG-informed simulation and NHANES scaffold to quantify underestimation of SES in large cohorts via non-linear pathways and selection.",
+  "creators": [
+    {
+      "name": "Name, Your"
+    },
+    {
+      "name": "Collaborator, A. N."
+    }
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "keywords": [
+    "causal inference",
+    "socioeconomic status",
+    "simulation",
+    "DAG",
+    "g-computation",
+    "NHANES"
+  ],
+  "language": "eng",
+  "version": "v1.0.0",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/yourname/ses-residual-confounding",
+      "scheme": "url"
+    }
+  ]
+}

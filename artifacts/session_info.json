@@ -1,0 +1,10 @@
+{
+  "python": "3.12.9 | packaged by conda-forge | (main, Mar  4 2025, 22:48:41) [GCC 13.3.0]",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.40",
+  "numpy": "2.2.3",
+  "pandas": "2.3.1",
+  "statsmodels": "0.14.5",
+  "patsy": "1.0.1",
+  "matplotlib": "3.10.1",
+  "ses_sim_new_sha256": "a2d7ae10015c9e524a4af33012cab2b21495eafaa9d6c72b85a06700ba23b8fc"
+}
