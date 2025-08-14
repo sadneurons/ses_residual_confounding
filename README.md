@@ -1,5 +1,5 @@
 # Simulation of Residual Confounding by SES
-_A DAG-informed simulation + NHANES case-study scaffold_
+_A DAG-informed simulation + NHANES case-study_
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.TBD.svg)](https://doi.org/10.5281/zenodo.TBD)
 
@@ -9,7 +9,7 @@ If you use this repository, please cite the archived release (Zenodo DOI above).
 **BibTeX**
 ```bibtex
 @software{yourname_ses_residual_confounding_2025,
-  author  = {Your Name and Collaborator, A. N.},
+  author  = {Dunne, R.A.},
   title   = {Simulation of Residual Confounding by SES},
   year    = {2025},
   publisher = {Zenodo},
@@ -37,6 +37,13 @@ tests/
   └── test_sim.py                               # Pytest invariants for the simulator
 ses_sim_new.py                                  # Your refined simulation scaffold (importable)
 artifacts/                                      # (created at runtime) metrics, figures, module copy, session info
+docs/
+  ├── abstract.qmd                              # PDF abstract (Quarto)
+  ├── poster.qmd                                # HTML poster (Quarto)
+  └── abstract_simple.md                        # Fallback markdown if no Quarto
+CITATION.cff                                    # Citation metadata (YAML)
+LICENSE                                         # MIT license
+
 ```
 
 ## Quick start (Conda, recommended)
