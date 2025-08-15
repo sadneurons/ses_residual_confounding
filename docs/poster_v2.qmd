@@ -1,0 +1,133 @@
+---
+title: "Simulation of Residual Confounding by SES"
+subtitle: "DAG‑informed simulation + NHANES case study"
+author: "Ross A. Dunne · A. N. Collaborator"
+date: today
+format:
+  html:
+    self-contained: true
+    theme: cosmo
+    grid:
+      margin-width: 0
+      body-width: 1200px
+execute:
+  echo: false
+  warning: false
+  message: false
+page-layout: full
+jupyter: python3
+---
+
+::: {.columns}
+::: {.column width="32%"}
+
+## Background
+- SES often entered **linearly** / **quintiles** → under‑fit if non‑linear.  
+- **Selection** (healthy‑volunteer bias) compresses gradients.  
+- Goal: quantify **SES causal \(R^2\)** attenuation.
+
+## Methods
+- **Simulation:** latent \(SES^*\) → mediators (BMI, SBP, smoking) → \(Y\); selection favors high SES & low risk. Splines + g‑comp vs typical models.
+- **NHANES:** DEMO/BPX/BMX/MCQ/SMQ (2003–2018), survey‑weighted fits, biobank‑like selection, spline g‑comp dose–response.
+
+## Key numbers (auto‑filled)
+```{python}
+import pandas as pd, numpy as np, os
+
+def read_or_none(p):
+    try: return pd.read_csv(p)
+    except: return None
+
+m  = read_or_none("../artifacts/simulation_metrics.csv") or pd.DataFrame([{}])
+chg= read_or_none("../artifacts/causal_r2_changes.csv")
+
+n_pop = int(m.iloc[0].get("n_population", 0)); n_sel = int(m.iloc[0].get("n_biobank", 0))
+prev_pop = float(m.iloc[0].get("mean_y_population", float("nan")))
+prev_sel = float(m.iloc[0].get("mean_y_biobank", float("nan")))
+r2_lin   = float(m.iloc[0].get("mcFadden_R2_linear_quintile", float("nan")))
+r2_over  = float(m.iloc[0].get("mcFadden_R2_overadjusted", float("nan")))
+
+def get_chg(cid):
+    if chg is None: return (np.nan, np.nan)
+    row = chg.loc[chg["contrast_id"]==cid]
+    if len(row)==0: return (np.nan, np.nan)
+    return float(row["pct_change"].iloc[0]), float(row["ratio"].iloc[0])
+
+pc1, ra1 = get_chg("pop_to_sel_oracle")
+pc2, ra2 = get_chg("sel_oracle_to_sel_proxy")
+
+print(f"- Population N → Selected N: **{n_pop:,} → {n_sel:,}**")
+print(f"- Prevalence (pop → sel): **{prev_pop:.2%} → {prev_sel:.2%}**")
+print(f"- McFadden R^2 (linear → over‑adj): **{r2_lin:.3f} → {r2_over:.3f}**")
+print(f"- SES causal R^2 (pop → sel, oracle): **{pc1:.0f}%** (ratio {ra1:.2f})")
+print(f"- SES causal R^2 (sel: oracle → proxy): **{pc2:.0f}%** (ratio {ra2:.2f})")
+```
+:::
+
+::: {.column width="36%"}
+
+## Simulation dose–response
+![](../artifacts/simulation_dose_response.png){fig-align="center" width="100%"}
+
+```{python}
+# If NHANES dose–response exists, plot it inline
+import pandas as pd, numpy as np, os
+import matplotlib.pyplot as plt
+
+try:
+    drp = pd.read_csv("../artifacts/nhanes_dose_response_population.csv")
+    drs = pd.read_csv("../artifacts/nhanes_dose_response_biobanklike.csv")
+    plt.figure(figsize=(6,4))
+    plt.grid(alpha=0.3)
+    plt.plot(drp.get("grid", drp.columns[0]), drp["risk"], label="NHANES population")
+    plt.plot(drs.get("grid", drs.columns[0]), drs["risk"], linestyle="--", label="NHANES biobank-like")
+    plt.xlabel("PIR (SES proxy)"); plt.ylabel("Risk"); plt.title("NHANES: spline g-comp dose–response")
+    plt.legend(); plt.tight_layout()
+    plt.show()
+except Exception as e:
+    print("NHANES dose–response not available:", e)
+```
+:::
+
+::: {.column width="32%"}
+
+## NHANES analog (auto‑filled)
+```{python}
+import pandas as pd, numpy as np
+def read_or_none(p):
+    try: return pd.read_csv(p)
+    except: return None
+
+mp = read_or_none("../artifacts/nhanes_population_metrics.csv")
+ms = read_or_none("../artifacts/nhanes_biobanklike_metrics.csv")
+drp= read_or_none("../artifacts/nhanes_dose_response_population.csv")
+drs= read_or_none("../artifacts/nhanes_dose_response_biobanklike.csv")
+
+def causal_r2_from_curve(df, prev):
+    try:
+        import numpy as np
+        arr = np.asarray(df["risk"].values, float); w = np.ones_like(arr)/len(arr)
+        mu = float(np.sum(w*arr)); num = float(np.sum(w*(arr-mu)**2))
+        varY = float(prev)*(1-float(prev))
+        return num/varY if varY>0 else float("nan")
+    except Exception:
+        return float("nan")
+
+if mp is not None and ms is not None and drp is not None and drs is not None:
+    ppop = float(mp.iloc[0]["prev"]); psel = float(ms.iloc[0]["prev"])
+    r2p  = causal_r2_from_curve(drp, ppop); r2s = causal_r2_from_curve(drs, psel)
+    ratio = (r2s/r2p) if r2p else float("nan"); pct = 100*(r2s-r2p)/r2p if r2p else float("nan")
+    print(f"- NHANES causal R^2 analog (pop → sel): **{pct:.0f}%** (ratio {ratio:.2f})")
+    print(f"- Pop vs Sel prev: **{ppop:.2%} → {psel:.2%}**")
+else:
+    print("- NHANES artifacts not found (run notebook with NHANES enabled).")
+```
+
+## Reproducibility
+- Parameterized notebook → `artifacts/` → Quarto renders.  
+- Code + env: Makefile, conda, tests, DOI metadata.  
+- License: MIT.
+
+:::
+
+:::

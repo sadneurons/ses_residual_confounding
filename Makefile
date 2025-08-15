@@ -42,6 +42,12 @@ poster: run
 abstract-md: run
 	python -c "import pandas as pd; m=pd.read_csv('artifacts/simulation_metrics.csv').iloc[0].to_dict(); print('# SES Simulation Results\n\n- Population N:', int(m.get('n_population',0)), '\n- Selected N:', int(m.get('n_biobank',0)), '\n- Causal R²:', f'{m.get(\"causal_R2_true\", 0):.4f}')" > docs/abstract_simple.md
 
+abstract-v2:  run
+	quarto render docs/abstract_v2.qmd --to pdf
+
+poster-v2: run
+	quarto render docs/poster_v2.qmd --to html
+
 # Convenience: try Quarto first, fallback to simple markdown
 docs: run
 	-quarto render docs/abstract.qmd --to pdf || echo "PDF generation failed - Quarto/Tectonic not available"

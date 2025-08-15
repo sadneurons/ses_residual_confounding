@@ -1,21 +1,23 @@
----
-title: "Underestimation of SES effects in large cohorts: A DAG‑informed simulation study"
-author:
-  - name: Ross A. Dunne
-    affiliation: Greater Manchester Mental Health Foundation Trust
-date: today
-keywords: [causal inference, SES, selection bias, g-computation, simulation]
-format:
-  pdf:
-    pdf-engine: lualatex
-    toc: false
-    geometry:
-      - margin=1in
-fontsize: 11pt
-jupyter: python3
----
-
-```{python}
+# type: ignore
+# flake8: noqa
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #| echo: false
 import pandas as pd
 from IPython.display import display, Markdown
@@ -45,4 +47,7 @@ output = display(Markdown( **Background.** Socioeconomic status (SES) is often m
 ))
 
 ```
-![Simulation dose-response curves showing non-linear relationships and selection effects](../artifacts/simulation_dose_response.png){fig-align="center" width="100%"}
+#
+#
+#
+#
